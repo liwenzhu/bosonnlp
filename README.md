@@ -9,7 +9,8 @@ BosonNLP is a node sdk for http://bosonnlp.com .
 $ npm install bosonnlp
 ```
 
-###Usage
+Usage
+-----
 
 ```javascript
 var bosonnlp = require('bosonnlp');
@@ -20,7 +21,8 @@ console.log(nlp.ner('成都商报记者 姚永忠'));
 //  "entity": [[0, 2, "product_name"], [3, 4, "person_name"]]}]
 ```
 
-###API
+API
+---
 
--**ner(content, callback)**-Named-entity recognition
+* __ner(content, callback)__ - Named-entity recognition.
 
