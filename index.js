@@ -1,3 +1,3 @@
 'use strict';
 
-exports.BosonNlp = require('./lib/bosonnlp');
+exports.BosonNLP = require('./lib/bosonnlp');
