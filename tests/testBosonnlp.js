@@ -1,7 +1,7 @@
 'use strict';
 
 var bosonnlp = require('../index');
-var boson = new bosonnlp.BosonNlp("59G4ZvQp.2193.0YmDde8uiv3e");
+var boson = new bosonnlp.BosonNlp("YOUR_API_KEY");
 
 exports.testNERSingle = function (test) {
 	var text = "成都商报记者 姚永忠";
