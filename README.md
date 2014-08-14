@@ -34,7 +34,7 @@ API
 tag
 ---
 
-POS Tagging use 宾州大学标准(http://www.cis.upenn.edu/~chinese/posguide.3rd.ch.pdf)
+POS Tagging use [宾州大学标准](http://www.cis.upenn.edu/~chinese/posguide.3rd.ch.pdf)
 
 ```javascript
 var bosonnlp = require('bosonnlp');
@@ -50,10 +50,18 @@ boson.tag(text, function (data) {
 var text = ['这个世界好复杂', '计算机是科学么'];
 boson.tag(text, function (data) {
 	data = JSON.parse(data); 
-	console.log(data[0].tag); // ["DT", "M", "NN", "AD", "VA"]);
-	console.lgo(data[0].word); // ["\u8fd9", "\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]);
-	console.lgo(data[1].tag); // ["NN", "VC", "NN", "SP"]);
-	console.lgo(data[1].word); // ["\u8ba1\u7b97\u673a", "\u662f", "\u79d1\u5b66", "\u4e48"]);
+
+	// ["DT", "M", "NN", "AD", "VA"]
+	console.log(data[0].tag); 
+
+	// ["\u8fd9", "\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]
+	console.lgo(data[0].word); 
+
+	// ["NN", "VC", "NN", "SP"]
+	console.lgo(data[1].tag); 
+
+	// ["\u8ba1\u7b97\u673a", "\u662f", "\u79d1\u5b66", "\u4e48"]
+	console.lgo(data[1].word); 
 });
 ```
 
