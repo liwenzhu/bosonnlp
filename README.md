@@ -5,7 +5,8 @@ BosonNLP is a node sdk for http://bosonnlp.com .
 
 [![NPM](https://nodei.co/npm/bosonnlp.png?stars&downloads)](https://nodei.co/npm/bosonnlp/) [![NPM](https://nodei.co/npm-dl/bosonnlp.png)](https://nodei.co/npm/bosonnlp/)
 
-###Installation
+Installation
+------------
 
 ```bash
 $ npm install bosonnlp
@@ -30,6 +31,7 @@ API
 
 * __tag(content, callback)__ - Tokenization and part of speech tagging.
 * __ner(content, callback)__ - Named-entity recognition.
+* __extractKeywords(content, callback)__ - Tokenization and compute word weight.
 
 tag
 ---
@@ -97,5 +99,11 @@ nlp.ner(content, function (result) {
 //  "entity": [[0, 2, "org_name"], [7, 9, "product_name"], [10, 11, "person_name"]]}]
 ```
 
+extractKeywords
+---------------
+
+```javascript
+
+```
 
 

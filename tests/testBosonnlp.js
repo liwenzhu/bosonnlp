@@ -56,3 +56,24 @@ exports.testTagMulti = function (test) {
 	});
 };
 
+exports.testExtractKeywordsSingle = function (test) {
+	var text = ["病毒式媒体网站：让新闻迅速蔓延"];
+	boson.extractKeywords(text, function (data) {
+		//[[0.45765331753974986, "\u8513\u5ef6"], [0.44429093001057907, "\u75c5\u6bd2"], [0.37748530715728457, "\u8fc5\u901f"], [0.3456580244319953, "\u7f51\u7ad9"], [0.3416267532164443, "\u5a92\u4f53"], [0.3055030679162763, "\u65b0\u95fb"], [0.189440906633153, "\u5f0f"], [0.08788500588998195, "\u8ba9"]]
+		data = JSON.parse(data);
+		test.done();
+	});
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
