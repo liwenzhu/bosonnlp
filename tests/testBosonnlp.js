@@ -1,9 +1,9 @@
 'use strict';
 
 var bosonnlp = require('../index');
-var boson = new bosonnlp.BosonNlp("YOUR_API_KEY");
+var boson = new bosonnlp.BosonNLP("YOUR_API_KEY");
 
-exports.testNERSingle = function (test) {
+exports.testNerSingle = function (test) {
 	var text = "成都商报记者 姚永忠";
 	boson.ner(text, function (data) {
 		data = JSON.parse(data)[0]; 
@@ -14,7 +14,7 @@ exports.testNERSingle = function (test) {
 	});
 };
 
-exports.testNERMulti = function (test) {
+exports.testNerMulti = function (test) {
 	var text = ["对于该小孩是不是郑尚金的孩子，目前已做亲子鉴定，结果还没出来，", "纪检部门仍在调查之中。成都商报记者 姚永忠"];
 	boson.ner(text, function (data) {
 		data = JSON.parse(data);
@@ -33,3 +33,26 @@ exports.testNERMulti = function (test) {
 		test.done();
 	});
 };
+
+exports.testTagSingle = function (test) {
+	var text = "这个世界好复杂";
+	boson.tag(text, function (data) {
+		data = JSON.parse(data)[0]; 
+		test.deepEqual(data.tag, ["DT", "M", "NN", "AD", "VA"]);
+		test.deepEqual(data.word, ["\u8fd9", "\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]);
+		test.done();
+	});
+};
+
+exports.testTagMulti = function (test) {
+	var text = ['这个世界好复杂', '计算机是科学么'];
+	boson.tag(text, function (data) {
+		data = JSON.parse(data); 
+		test.deepEqual(data[0].tag, ["DT", "M", "NN", "AD", "VA"]);
+		test.deepEqual(data[0].word, ["\u8fd9", "\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]);
+		test.deepEqual(data[1].tag, ["NN", "VC", "NN", "SP"]);
+		test.deepEqual(data[1].word, ["\u8ba1\u7b97\u673a", "\u662f", "\u79d1\u5b66", "\u4e48"]);
+		test.done();
+	});
+};
+
