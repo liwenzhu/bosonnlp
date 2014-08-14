@@ -32,6 +32,10 @@ API
 * __tag(content, callback)__ - Tokenization and part of speech tagging.
 * __ner(content, callback)__ - Named-entity recognition.
 * __extractKeywords(content, callback)__ - Tokenization and compute word weight.
+* __sentiment(content, callback)__ - Automatic detection of opinions embodied in text.
+* __depparser(content, callback)__ - Work out the grammatical structure of sentences
+* __classify(content, callback)__ - categorization the given articles.
+* __suggest(term, callback)__ - Get relative words.
 
 tag
 ---
@@ -103,7 +107,61 @@ extractKeywords
 ---------------
 
 ```javascript
-
+var bosonnlp = require('bosonnlp');
+var nlp = new bosonnlp.BosonNLP('YOUR_API_KEY');
+var text = ["病毒式媒体网站：让新闻迅速蔓延"];
+nlp.extractKeywords(text, function (data) {
+	data = JSON.parse(data);
+	console.log(data);
+});
 ```
+
+sentiment
+---------
+
+```javascript
+var text = ['他是个傻逼','美好的世界'];
+boson.sentiment(text, function (data) {
+	console.log(data);
+});
+```
+
+depparser
+---------
+
+```javascript
+var text = ['我以最快的速度吃了午饭']
+boson.depparser(text, function (data) {
+	console.log("depparser:", data);
+});
+```
+
+classify
+--------
+
+```javascript
+var text = ['俄否决安理会谴责叙军战机空袭阿勒颇平民',
+			'邓紫棋谈男友林宥嘉：我觉得我比他唱得好',
+			'Facebook收购印度初创公司'];
+boson.classify(text, function (data) {
+	console.log("classify:", data);
+	test.done();
+});
+```
+
+suggest
+-------
+
+```javascript
+var term = '粉丝';
+boson.suggest(term, function (data) {
+	console.log("suggest:", data);
+});
+```
+
+
+
+
+
 
 

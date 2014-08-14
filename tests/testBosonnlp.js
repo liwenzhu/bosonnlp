@@ -59,11 +59,58 @@ exports.testTagMulti = function (test) {
 exports.testExtractKeywordsSingle = function (test) {
 	var text = ["病毒式媒体网站：让新闻迅速蔓延"];
 	boson.extractKeywords(text, function (data) {
-		//[[0.45765331753974986, "\u8513\u5ef6"], [0.44429093001057907, "\u75c5\u6bd2"], [0.37748530715728457, "\u8fc5\u901f"], [0.3456580244319953, "\u7f51\u7ad9"], [0.3416267532164443, "\u5a92\u4f53"], [0.3055030679162763, "\u65b0\u95fb"], [0.189440906633153, "\u5f0f"], [0.08788500588998195, "\u8ba9"]]
 		data = JSON.parse(data);
+		test.equal(data[0][1],'\u8513\u5ef6');
+		test.equal(data[1][1],'\u75c5\u6bd2');
+		test.equal(data[2][1],'\u8fc5\u901f');
+		test.equal(data[3][1],'\u7f51\u7ad9');
+		test.equal(data[4][1],'\u5a92\u4f53');
+		test.equal(data[5][1],'\u65b0\u95fb');
+		test.equal(data[6][1],'\u5f0f');
+		test.equal(data[7][1],'\u8ba9');
 		test.done();
 	});
 };
+
+exports.testSentiment = function (test) {
+	var text = ['他是个傻逼','美好的世界'];
+	boson.sentiment(text, function (data) {
+		console.log(data);
+		test.done();
+	});
+};
+
+exports.testDepparser = function (test) {
+	var text = ['我以最快的速度吃了午饭']
+	boson.depparser(text, function (data) {
+		console.log("depparser:", data);
+		test.done();
+	});
+};
+
+exports.testClassify = function (test) {
+	var text = ['俄否决安理会谴责叙军战机空袭阿勒颇平民',
+    			'邓紫棋谈男友林宥嘉：我觉得我比他唱得好',
+    			'Facebook收购印度初创公司'];
+	boson.classify(text, function (data) {
+		console.log("classify:", data);
+		test.done();
+	});
+};
+
+exports.testSuggest = function (test) {
+	var term = '粉丝';
+	boson.suggest(term, function (data) {
+		console.log("suggest:", data);
+		test.done();
+	});
+};
+
+
+
+
+
+
 
 
 
