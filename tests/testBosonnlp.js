@@ -1,7 +1,7 @@
 'use strict';
 
 var bosonnlp = require('../index');
-var boson = new bosonnlp.BosonNLP("59G4ZvQp.2193.0YmDde8uiv3e");
+var boson = new bosonnlp.BosonNLP("YOUR_API");
 
 exports.testPunctuation = function (test) {
 	var text = "[成都商报]记者 姚永忠";
@@ -11,7 +11,7 @@ exports.testPunctuation = function (test) {
 		test.equal(data.word.slice(entity[0], entity[1]).join(''), "成都商报");
 		test.equal(entity[2], "product_name");
 	});
-	
+
 	boson.ner("成都商报,记者 姚永忠", function (data) {
 		data = JSON.parse(data)[0]; 
 		var entity = data.entity[0];
