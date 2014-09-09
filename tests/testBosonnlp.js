@@ -1,7 +1,25 @@
 'use strict';
 
 var bosonnlp = require('../index');
-var boson = new bosonnlp.BosonNLP("YOUR_API_KEY");
+var boson = new bosonnlp.BosonNLP("59G4ZvQp.2193.0YmDde8uiv3e");
+
+exports.testPunctuation = function (test) {
+	var text = "[成都商报]记者 姚永忠";
+	boson.ner("[成都商报]记者 姚永忠", function (data) {
+		data = JSON.parse(data)[0]; 
+		var entity = data.entity[0];
+		test.equal(data.word.slice(entity[0], entity[1]).join(''), "成都商报");
+		test.equal(entity[2], "product_name");
+	});
+	
+	boson.ner("成都商报,记者 姚永忠", function (data) {
+		data = JSON.parse(data)[0]; 
+		var entity = data.entity[0];
+		test.equal(data.word.slice(entity[0], entity[1]).join(''), "成都商报");
+		test.equal(entity[2], "product_name");
+		test.done();
+	})
+}
 
 exports.testNerSingle = function (test) {
 	var text = "成都商报记者 姚永忠";
@@ -75,7 +93,7 @@ exports.testExtractKeywordsSingle = function (test) {
 exports.testSentiment = function (test) {
 	var text = ['他是个傻逼','美好的世界'];
 	boson.sentiment(text, function (data) {
-		console.log(data);
+		// console.log(data);
 		test.done();
 	});
 };
@@ -83,7 +101,7 @@ exports.testSentiment = function (test) {
 exports.testDepparser = function (test) {
 	var text = ['我以最快的速度吃了午饭']
 	boson.depparser(text, function (data) {
-		console.log("depparser:", data);
+		// console.log("depparser:", data);
 		test.done();
 	});
 };
@@ -93,7 +111,7 @@ exports.testClassify = function (test) {
     			'邓紫棋谈男友林宥嘉：我觉得我比他唱得好',
     			'Facebook收购印度初创公司'];
 	boson.classify(text, function (data) {
-		console.log("classify:", data);
+		// console.log("classify:", data);
 		test.done();
 	});
 };
@@ -101,7 +119,7 @@ exports.testClassify = function (test) {
 exports.testSuggest = function (test) {
 	var term = '粉丝';
 	boson.suggest(term, function (data) {
-		console.log("suggest:", data);
+		// console.log("suggest:", data);
 		test.done();
 	});
 };
