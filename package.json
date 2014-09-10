@@ -1,6 +1,6 @@
 {
   "name": "bosonnlp",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "bosonnlp node sdk.",
   "main": "index.js",
   "scripts": {
