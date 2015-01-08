@@ -61,13 +61,13 @@ boson.tag(text, function (data) {
 	console.log(data[0].tag); 
 
 	// ["\u8fd9", "\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]
-	console.lgo(data[0].word); 
+	console.log(data[0].word); 
 
 	// ["NN", "VC", "NN", "SP"]
-	console.lgo(data[1].tag); 
+	console.log(data[1].tag); 
 
 	// ["\u8ba1\u7b97\u673a", "\u662f", "\u79d1\u5b66", "\u4e48"]
-	console.lgo(data[1].word); 
+	console.log(data[1].word); 
 });
 ```
 
