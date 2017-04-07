@@ -9,6 +9,9 @@
   "devDependencies": {
     "nodeunit": "*"
   },
+  "dependencies": {
+    "socks5-http-client": "^1.0.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/liwenzhu/bosonnlp.git"
