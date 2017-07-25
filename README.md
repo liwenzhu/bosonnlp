@@ -120,10 +120,12 @@ sentiment
 ---------
 
 ```javascript
-var text = ['他是个傻逼','美好的世界'];
-boson.sentiment(text, function (data) {
-	console.log(data);
-});
+var bosonnlp = require('bosonnlp');
+    var nlp = new bosonnlp.BosonNLP('YOUR_API_KEY');
+    var content='说了这么多负面分析，你们也不要悲观，BTC硬分叉这种既定事实大家都是有一个底在那里，能兜得住，现在就看谁能不能扛得住颠簸。而且从技术看，还会有行情的，至少我是这么看。';
+    nlp.sentiment(content,'news',function(data){//使用默认通用模型则可不写。
+           console.log(data);
+       });
 ```
 
 depparser
