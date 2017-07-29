@@ -1,19 +1,30 @@
 'use strict';
 
 var bosonnlp = require('../index');
-var boson = new bosonnlp.BosonNLP("YOUR_API");
+
+// This API_TOKEN is only for travis ci
+var boson = new bosonnlp.BosonNLP("59G4ZvQp.2193.0YmDde8uiv3e");
+
+var ENTITY_START_POSITION_INDEX = 0;
+var ENTITY_END_POSITION_INDEX = 1;
+var ENTITY_TYPE = 2;
+
+function getEntityWord(word, entity) {
+	var wordStartPosition = entity[ENTITY_START_POSITION_INDEX];
+	var wordEndPosition = entity[ENTITY_END_POSITION_INDEX];
+	return word.slice(wordStartPosition, wordEndPosition).join('');
+}
 
 exports.testPunctuation = function (test) {
-	var text = "[成都商报]记者 姚永忠";
 	boson.ner("[成都商报]记者 姚永忠", function (data) {
-		data = JSON.parse(data)[0]; 
+		data = JSON.parse(data)[0];
 		var entity = data.entity[0];
 		test.equal(data.word.slice(entity[0], entity[1]).join(''), "成都商报");
 		test.equal(entity[2], "product_name");
 	});
 
 	boson.ner("成都商报,记者 姚永忠", function (data) {
-		data = JSON.parse(data)[0]; 
+		data = JSON.parse(data)[0];
 		var entity = data.entity[0];
 		test.equal(data.word.slice(entity[0], entity[1]).join(''), "成都商报");
 		test.equal(entity[2], "product_name");
@@ -24,7 +35,7 @@ exports.testPunctuation = function (test) {
 exports.testNerSingle = function (test) {
 	var text = "成都商报记者 姚永忠";
 	boson.ner(text, function (data) {
-		data = JSON.parse(data)[0]; 
+		data = JSON.parse(data)[0];
 		var entity = data.entity[0];
 		test.equal(data.word.slice(entity[0], entity[1]).join(''), "成都商报");
 		test.equal(entity[2], "product_name");
@@ -37,17 +48,17 @@ exports.testNerMulti = function (test) {
 	boson.ner(text, function (data) {
 		data = JSON.parse(data);
 		var entity = data[0].entity[0];
-		test.equal(data[0].word.slice(entity[0], entity[1]).join(''), "郑尚金");
-		test.equal(entity[2], "person_name");
+		test.equal(getEntityWord(data[0].word, entity), "郑尚金");
+		test.equal(entity[ENTITY_TYPE], "person_name");
 		entity = data[1].entity[0]
-		test.equal(data[1].word.slice(entity[0], entity[1]).join(''), "纪检部门");
-		test.equal(entity[2], "org_name");
+		test.equal(getEntityWord(data[1].word, entity), "成都商报");
+		test.equal(entity[ENTITY_TYPE], "product_name");
 		entity = data[1].entity[1]
-		test.equal(data[1].word.slice(entity[0], entity[1]).join(''), "成都商报");
-		test.equal(entity[2], "product_name");
+		test.equal(getEntityWord(data[1].word, entity), "记者");
+		test.equal(entity[ENTITY_TYPE], "job_title");
 		entity = data[1].entity[2]
-		test.equal(data[1].word.slice(entity[0], entity[1]).join(''), "姚永忠");
-		test.equal(entity[2], "person_name");
+		test.equal(getEntityWord(data[1].word, entity), "姚永忠");
+		test.equal(entity[ENTITY_TYPE], "person_name");
 		test.done();
 	});
 };
@@ -55,9 +66,9 @@ exports.testNerMulti = function (test) {
 exports.testTagSingle = function (test) {
 	var text = "这个世界好复杂";
 	boson.tag(text, function (data) {
-		data = JSON.parse(data)[0]; 
-		test.deepEqual(data.tag, ["DT", "M", "NN", "AD", "VA"]);
-		test.deepEqual(data.word, ["\u8fd9", "\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]);
+		data = JSON.parse(data)[0];
+		test.deepEqual(data.tag, ["r", "n", "d", "a"]);
+		test.deepEqual(data.word, ["\u8fd9\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]);
 		test.done();
 	});
 };
@@ -65,10 +76,10 @@ exports.testTagSingle = function (test) {
 exports.testTagMulti = function (test) {
 	var text = ['这个世界好复杂', '计算机是科学么'];
 	boson.tag(text, function (data) {
-		data = JSON.parse(data); 
-		test.deepEqual(data[0].tag, ["DT", "M", "NN", "AD", "VA"]);
-		test.deepEqual(data[0].word, ["\u8fd9", "\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]);
-		test.deepEqual(data[1].tag, ["NN", "VC", "NN", "SP"]);
+		data = JSON.parse(data);
+		test.deepEqual(data[0].tag, ["r", "n", "d", "a"]);
+		test.deepEqual(data[0].word, ["\u8fd9\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]);
+		test.deepEqual(data[1].tag, ["n", "vshi", "n", "y"]);
 		test.deepEqual(data[1].word, ["\u8ba1\u7b97\u673a", "\u662f", "\u79d1\u5b66", "\u4e48"]);
 		test.done();
 	});
@@ -76,16 +87,18 @@ exports.testTagMulti = function (test) {
 
 exports.testExtractKeywordsSingle = function (test) {
 	var text = ["病毒式媒体网站：让新闻迅速蔓延"];
+	var WORD_INDEX = 1;
 	boson.extractKeywords(text, function (data) {
-		data = JSON.parse(data);
-		test.equal(data[0][1],'\u8513\u5ef6');
-		test.equal(data[1][1],'\u75c5\u6bd2');
-		test.equal(data[2][1],'\u8fc5\u901f');
-		test.equal(data[3][1],'\u7f51\u7ad9');
-		test.equal(data[4][1],'\u5a92\u4f53');
-		test.equal(data[5][1],'\u65b0\u95fb');
-		test.equal(data[6][1],'\u5f0f');
-		test.equal(data[7][1],'\u8ba9');
+		data = JSON.parse(data)[0];
+		// result of data is [weight, word]
+		test.equal(data[0][WORD_INDEX],'蔓延');
+		test.equal(data[1][WORD_INDEX],'病毒');
+		test.equal(data[2][WORD_INDEX],'迅速');
+		test.equal(data[3][WORD_INDEX],'网站');
+		test.equal(data[4][WORD_INDEX],'新闻');
+		test.equal(data[5][WORD_INDEX],'媒体');
+		test.equal(data[6][WORD_INDEX],'式');
+		test.equal(data[7][WORD_INDEX],'让');
 		test.done();
 	});
 };
@@ -93,7 +106,6 @@ exports.testExtractKeywordsSingle = function (test) {
 exports.testSentiment = function (test) {
 	var text = ['他是个傻逼','美好的世界'];
 	boson.sentiment(text, function (data) {
-		// console.log(data);
 		test.done();
 	});
 };
