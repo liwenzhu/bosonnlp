@@ -37,15 +37,15 @@ exports.testNerSingle = function (test) {
 	boson.ner(text, function (data) {
 		data = JSON.parse(data)[0];
 		var entity = data.entity[0];
-		test.equal(data.word.slice(entity[0], entity[1]).join(''), "成都商报");
-		test.equal(entity[2], "product_name");
-		test.done();
-	});
+        test.equal(data.word.slice(entity[0], entity[1]).join(''), "成都商报");
+        test.equal(entity[2], "product_name");
+        test.done();
+    });
 };
 
 exports.testNerMulti = function (test) {
-	var text = ["对于该小孩是不是郑尚金的孩子，目前已做亲子鉴定，结果还没出来，", "纪检部门仍在调查之中。成都商报记者 姚永忠"];
-	boson.ner(text, function (data) {
+    var text = ["对于该小孩是不是郑尚金的孩子，目前已做亲子鉴定，结果还没出来，", "纪检部门仍在调查之中。成都商报记者 姚永忠"];
+    boson.ner(text, function (data) {
 		data = JSON.parse(data);
 		var entity = data[0].entity[0];
 		test.equal(getEntityWord(data[0].word, entity), "郑尚金");
@@ -64,11 +64,11 @@ exports.testNerMulti = function (test) {
 };
 
 exports.testTagSingle = function (test) {
-	var text = "这个世界好复杂";
-	boson.tag(text, function (data) {
+    var text = "这个世界好复杂";
+    boson.tag(text, function (data) {
 		data = JSON.parse(data)[0];
 		test.deepEqual(data.tag, ["r", "n", "d", "a"]);
-		test.deepEqual(data.word, ["\u8fd9\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]);
+		test.deepEqual(data.word, ["这个", "世界", "好", "复杂"]);
 		test.done();
 	});
 };
@@ -78,9 +78,9 @@ exports.testTagMulti = function (test) {
 	boson.tag(text, function (data) {
 		data = JSON.parse(data);
 		test.deepEqual(data[0].tag, ["r", "n", "d", "a"]);
-		test.deepEqual(data[0].word, ["\u8fd9\u4e2a", "\u4e16\u754c", "\u597d", "\u590d\u6742"]);
+		test.deepEqual(data[0].word, ["这个", "世界", "好", "复杂"]);
 		test.deepEqual(data[1].tag, ["n", "vshi", "n", "y"]);
-		test.deepEqual(data[1].word, ["\u8ba1\u7b97\u673a", "\u662f", "\u79d1\u5b66", "\u4e48"]);
+		test.deepEqual(data[1].word, ["计算机", "是", "科学", "么"]);
 		test.done();
 	});
 };
@@ -106,6 +106,7 @@ exports.testExtractKeywordsSingle = function (test) {
 exports.testSentiment = function (test) {
 	var text = ['他是个傻逼','美好的世界'];
 	boson.sentiment(text, function (data) {
+		test.equal(true, !!data)
 		test.done();
 	});
 };
@@ -113,7 +114,15 @@ exports.testSentiment = function (test) {
 exports.testDepparser = function (test) {
 	var text = ['我以最快的速度吃了午饭']
 	boson.depparser(text, function (data) {
-		// console.log("depparser:", data);
+		data = JSON.parse(data)[0]
+		var head = data.head;
+		var role = data.role;
+		var tag = data.tag;
+		var word = data.word;
+		test.deepEqual(head, [6, 6, 3, 4, 5, 1, -1, 6, 6]);
+		test.deepEqual(role, ["SBJ", "MNR", "VMOD", "DEC", "NMOD", "POBJ", "ROOT", "VMOD", "OBJ"]);
+		test.deepEqual(tag, ["PN", "P", "AD", "VA", "DEC", "NN", "VV", "AS", "NN"]);
+		test.deepEqual(word, ["我", "以", "最", "快", "的", "速度", "吃", "了", "午饭"]);
 		test.done();
 	});
 };
@@ -123,16 +132,19 @@ exports.testClassify = function (test) {
     			'邓紫棋谈男友林宥嘉：我觉得我比他唱得好',
     			'Facebook收购印度初创公司'];
 	boson.classify(text, function (data) {
-		// console.log("classify:", data);
+		test.deepEqual(JSON.parse(data), [5, 4, 8]);
 		test.done();
 	});
 };
 
 exports.testSuggest = function (test) {
 	var term = '粉丝';
-	boson.suggest(term, function (data) {
-		// console.log("suggest:", data);
-		test.done();
+	var options = {};
+	options.top_k = 2;
+	boson.suggest(term, options, function (data) {
+		boson.suggest(term, function(data){
+			test.done();
+		});
 	});
 };
 
