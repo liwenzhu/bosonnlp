@@ -117,6 +117,8 @@ sentiment
 ```javascript
 var text = ['他是个傻逼','美好的世界'];
 boson.sentiment(text, function (data) {
+    // [非负面概率, 负面概率]
+    // [[0.6519134382562579, 0.34808656174374203], [0.92706110187413, 0.07293889812586994]]
 	console.log(data);
 });
 ```
@@ -197,6 +199,14 @@ var term = '粉丝';
 boson.suggest(term, function (data) {
 	console.log("suggest:", data);
 });
+
+var options = {};
+// options.top_k default 10
+options.top_k = 2;
+boson.suggest(term, options, function (data) {
+	console.log("suggest:", data);
+});
+
 ```
 
 
