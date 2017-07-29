@@ -40,7 +40,7 @@ API
 tag
 ---
 
-POS Tagging use [宾州大学标准](http://www.cis.upenn.edu/~chinese/posguide.3rd.ch.pdf)
+[POS Tagging DOC](http://www.cis.upenn.edu/~chinese/posguide.3rd.ch.pdf)
 
 ```javascript
 var bosonnlp = require('bosonnlp');
