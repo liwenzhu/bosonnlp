@@ -3,6 +3,8 @@ BosonNLP
 
 BosonNLP is a node sdk for http://bosonnlp.com .
 
+[![Build Status](https://travis-ci.org/liwenzhu/bosonnlp.svg?branch=master)](https://travis-ci.org/liwenzhu/bosonnlp)
+
 [![NPM](https://nodei.co/npm/bosonnlp.png?stars&downloads)](https://nodei.co/npm/bosonnlp/) [![NPM](https://nodei.co/npm-dl/bosonnlp.png)](https://nodei.co/npm/bosonnlp/)
 
 Installation
