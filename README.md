@@ -21,6 +21,8 @@ Usage
 ```javascript
 var bosonnlp = require('bosonnlp');
 var nlp = new bosonnlp.BosonNLP('YOUR_API_KEY');
+//if you run behind a socks5 proxy. Note that behind a http proxy may cause server response 'invalide header'
+//var nlp = new bosonnlp.BosonNLP('YOUR_API_KEY',{{socksHost:'localhost',socksPort:1080}});
 nlp.ner('成都商报记者 姚永忠', function (result) {
 	console.log(result);
 });
